@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<clinic xmlns="http://cs548.stevens.edu/clinic/db"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://cs548.stevens.edu/clinic/db file:/C:/Users/josep/Documents/CS548/Assignment%203/Assignment3-XQuery.xsd">
+    <patient>
+        <patient-id>-1073741773</patient-id>
+        <name>Darius</name>
+        <treatment>
+            <id>-1073741773</id>
+            <diagnosis>Infection</diagnosis>
+            <drug>Antibiotics</drug>
+            <provider>
+                <npi>12345</npi>
+                <name>Dr Stone</name>
+            </provider>
+        </treatment>
+        <treatment>
+            <id>-1073741773</id>
+            <diagnosis>Flu</diagnosis>
+            <drug>Tamiflu</drug>
+            <provider>
+                <npi>54321</npi>
+                <name>Dr Jekyll</name>
+            </provider>
+        </treatment>
+        <treatment>
+            <id>-1073741773</id>
+            <diagnosis>Fever</diagnosis>
+            <drug>Nyquil</drug>
+            <provider>
+                <npi>67890</npi>
+                <name>Dr Jesus</name>
+            </provider>
+        </treatment>
+    </patient>
+    <patient>
+        <patient-id>-1073741773</patient-id>
+        <name>Tanya</name>
+        <treatment>
+            <id>-1073741773</id>
+            <diagnosis>Goiter</diagnosis>
+            <drug>Iodine</drug>
+            <provider>
+                <npi>67890</npi>
+                <name>Dr Jesus</name>
+            </provider>
+        </treatment>
+        <treatment>
+            <id>-1073741773</id>
+            <diagnosis>Ear Infection</diagnosis>
+            <drug>Amoxicillin</drug>
+            <provider>
+                <npi>12345</npi>
+                <name>Dr Stone</name>
+            </provider>
+        </treatment>
+        <treatment>
+            <id>-1073741773</id>
+            <diagnosis>Pink Eye</diagnosis>
+            <drug>Eyedrops</drug>
+            <provider>
+                <npi>54321</npi>
+                <name>Dr Jekyll</name>
+            </provider>
+        </treatment>
+    </patient>
+    <patient>
+        <patient-id>-1073741773</patient-id>
+        <name>Brian</name>
+        <treatment>
+            <id>-1073741773</id>
+            <diagnosis>Hip Fracture</diagnosis>
+            <drug>Tylenol</drug>
+            <provider>
+                <npi>54321</npi>
+                <name>Dr Jekyll</name>
+            </provider>
+        </treatment>
+        <treatment>
+            <id>-1073741773</id>
+            <diagnosis>The Suds</diagnosis>
+            <drug>Bubble Bath</drug>
+            <provider>
+                <npi>54321</npi>
+                <name>Dr Jekyll</name>
+            </provider>
+        </treatment>
+        <treatment>
+            <id>-1073741773</id>
+            <diagnosis>Insomnia</diagnosis>
+            <drug>Sleep</drug>
+            <provider>
+                <npi>67890</npi>
+                <name>Dr Jesus</name>
+            </provider>
+        </treatment>
+    </patient>
+</clinic>
