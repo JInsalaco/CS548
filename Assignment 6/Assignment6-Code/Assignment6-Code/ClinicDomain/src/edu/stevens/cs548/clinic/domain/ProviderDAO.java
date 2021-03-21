@@ -1,12 +1,15 @@
 package edu.stevens.cs548.clinic.domain;
 
+import java.util.List;
 import java.util.logging.Logger;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 public class ProviderDAO implements IProviderDAO {
-
+	@PersistenceContext
 	private EntityManager em;
 	private TreatmentDAO treatmentDAO;
 	
@@ -20,33 +23,57 @@ public class ProviderDAO implements IProviderDAO {
 
 	@Override
 	public long addProvider(Provider provider) throws ProviderExn {
-		/*
-		 * TODO add to database (and sync with database to generate primary key).
-		 * Don't forget to initialize the Provider aggregate with a treatment DAO.
-		 */
-		return 0L;
+		long npi = provider.getNpi();
+		Query query = em.createNamedQuery("CountProviderByNPI").setParameter("npi", npi);
+		Long numExisting = (Long) query.getSingleResult();
+		
+		if (numExisting < 1) {
+			// Add to database (and sync with database to generate primary key)
+			// Don't forget to initialize the patient aggregate with a treatment DAO
+			em.persist(provider);
+			em.flush();
+			provider.setTreatmentDAO(this.treatmentDAO);
+			
+			return provider.getId();
+		} else {
+			throw new ProviderExn("Insertion: Provider with npi (" + npi + ") already exists.");
+		}
 	}
 
 	@Override
 	public Provider getProvider(long id) throws ProviderExn {
 		
 		/*
-		 * TODO retrieve Provider using primary key
+		 * Retrieve patient using primary key
 		 */
-		return null;
+		Provider p = em.find(Provider.class, id);
+		if (p == null) {
+			throw new ProviderExn("Provider not found: primary key = " + id);
+		} else {
+			p.setTreatmentDAO(this.treatmentDAO);
+			return p;
+		}
 	}
 
 	@Override
 	public Provider getProviderByNPI(long pid) throws ProviderExn {
-		/*
-		 * TODO retrieve Provider using query on Provider id (secondary key)
-		 */
-		return null;
+		TypedQuery<Provider> query = em.createNamedQuery("SearchProviderByNPI", Provider.class).setParameter("NPI",pid);
+		List<Provider> providers = query.getResultList();
+		
+		if (providers.size() > 1) {
+			throw new ProviderExn("Duplicate provider records: npi = " + pid);
+		} else if (providers.size() < 1) {
+			throw new ProviderExn("Patient not found: patient id = " + pid);
+		} else {
+			Provider p = providers.get(0);
+			p.setTreatmentDAO(this.treatmentDAO);
+			return p;
+		}
 	}
 	
 	@Override
 	public void deleteProviders() {
-		Query update = em.createNamedQuery("RemoveAllProviders");
+		Query update = em.createNamedQuery("RemoveAllPatients");
 		update.executeUpdate();
 	}
 

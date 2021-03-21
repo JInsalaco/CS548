@@ -4,13 +4,13 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 public class PatientDAO implements IPatientDAO {
-
+    @PersistenceContext
 	private EntityManager em;
-	
 	private TreatmentDAO treatmentDAO;
 	
 	public PatientDAO(EntityManager em) {

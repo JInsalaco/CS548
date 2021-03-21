@@ -4,20 +4,18 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.Transient;
+import javax.persistence.*;
 
 import edu.stevens.cs548.clinic.domain.ITreatmentDAO.TreatmentExn;
+import static javax.persistence.CascadeType.REMOVE;
 
 /**
  * Entity implementation class for Entity: Patient
  *
  */
-// TODO JPA annotations
+
 @NamedQueries({
 	@NamedQuery(
 		name="SearchPatientByPatientID",
@@ -31,11 +29,13 @@ import edu.stevens.cs548.clinic.domain.ITreatmentDAO.TreatmentExn;
 
 })
 
+@Entity
+@Table(name="PATIENT")
 public class Patient implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
-	// TODO JPA annotations
+	@Id @GeneratedValue
 	private long id;
 	
 	private long patientId;
@@ -66,7 +66,8 @@ public class Patient implements Serializable {
 		this.name = name;
 	}
 
-	// TODO JPA annotations (propagate deletion of patient to treatments)
+	@OneToMany(mappedBy = "patient", cascade = REMOVE)
+	@OrderBy
 	private List<Treatment> treatments;
 
 	protected List<Treatment> getTreatments() {

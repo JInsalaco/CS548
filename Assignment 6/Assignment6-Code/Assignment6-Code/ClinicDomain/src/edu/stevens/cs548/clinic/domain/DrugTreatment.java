@@ -2,11 +2,14 @@ package edu.stevens.cs548.clinic.domain;
 
 import java.io.Serializable;
 
+import javax.persistence.*;
+
 /**
  * Entity implementation class for Entity: DrugTreatment
  * 
  */
-// TODO JPA annotations
+@Entity
+@DiscriminatorValue("DT")
 public class DrugTreatment extends Treatment implements Serializable {
 
 	private static final long serialVersionUID = 1L;

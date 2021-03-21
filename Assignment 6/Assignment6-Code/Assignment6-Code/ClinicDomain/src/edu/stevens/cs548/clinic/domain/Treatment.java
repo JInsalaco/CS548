@@ -2,17 +2,22 @@ package edu.stevens.cs548.clinic.domain;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import static javax.persistence.InheritanceType.JOINED;
 
 /**
  * Entity implementation class for Entity: Treatment
  *
  */
-// TODO JPA annotations
+@Entity
+@Inheritance(strategy = JOINED)
+@DiscriminatorColumn(name="TTYPE")
+@Table(name = "Treatment")
 public abstract class Treatment implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
-	// TODO JPA annotations
+	@Id
+	@GeneratedValue
 	private long id;
 	private String diagnosis;
 
@@ -32,7 +37,8 @@ public abstract class Treatment implements Serializable {
 		this.diagnosis = diagnosis;
 	}
 
-	// TODO JPA annotations
+	@ManyToOne
+	@JoinColumn(name = "patient_fk", referencedColumnName = "id")
 	private Patient patient;
 
 	public Patient getPatient() {
@@ -45,7 +51,8 @@ public abstract class Treatment implements Serializable {
 			patient.addTreatment(this);
 	}
 	
-	// TODO JPA annotations
+	@ManyToOne
+	@JoinColumn(name = "provider_fk", referencedColumnName = "id")
 	private Provider provider;
 
 	public Provider getProvider() {

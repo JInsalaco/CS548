@@ -1,5 +1,8 @@
 package edu.stevens.cs548.clinic.domain;
 
+import java.util.Date;
+import java.util.List;
+
 public class TreatmentFactory implements ITreatmentFactory {
 	
 	/*
@@ -13,9 +16,24 @@ public class TreatmentFactory implements ITreatmentFactory {
 		treatment.setDiagnosis(diagnosis);
 		treatment.setDrug(drug);
 		treatment.setDosage(dosage);
-		return null;
+		return treatment;
+	}
+
+	@Override
+	public Treatment createRadiologyTreatment(String diagnosis, List<Date> dates) {
+		RadiologyTreatment treatment = new RadiologyTreatment();
+		treatment.setDiagnosis(diagnosis);
+		treatment.setTreatmentDates(dates);
+		return treatment;
+	}
+
+	@Override
+	public Treatment createSurgeryTreatment(String diagnosis, Date date) {
+		SurgeryTreatment treatment = new SurgeryTreatment();
+		treatment.setDiagnosis(diagnosis);
+		treatment.setSurgeryDate(date);
+		return treatment;
 	}
 	
-	// TODO define other factory methods
 
 }

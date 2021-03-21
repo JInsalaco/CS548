@@ -4,20 +4,18 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.*;
 
 import edu.stevens.cs548.clinic.domain.ITreatmentDAO.TreatmentExn;
+import static javax.persistence.CascadeType.REMOVE;
 
 /**
  * Entity implementation class for Entity: Patient
  *
  */
-//TODO JPA annotations
+
 @NamedQueries({
 	@NamedQuery(
 		name="SearchProviderByNPI",
@@ -30,6 +28,8 @@ import edu.stevens.cs548.clinic.domain.ITreatmentDAO.TreatmentExn;
 		query = "delete from Patient p")
 })
 
+@Entity
+@Table(name = "Provider")
 public class Provider implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
@@ -40,12 +40,12 @@ public class Provider implements Serializable {
 		RADIOLOGIST
 	};
 	
-	// TODO JPA annotations
+	@Id @GeneratedValue
 	private long id;
 	
 	private long npi;
 	
-	// TODO JPA annotation
+	@Enumerated
 	private ProviderType providerType;
 
 	private String name;
@@ -82,7 +82,7 @@ public class Provider implements Serializable {
 		this.name = name;
 	}
 
-	// TODO JPA annotations (propagate deletion of provider to treatments)
+	@OneToMany(cascade = REMOVE, mappedBy = "provider")
 	private List<Treatment> treatments;
 
 	protected List<Treatment> getTreatments() {
@@ -93,7 +93,7 @@ public class Provider implements Serializable {
 		this.treatments = treatments;
 	}
 	
-	// TODO JPA annotation
+	@Transient
 	private ITreatmentDAO treatmentDAO;
 	
 	public void setTreatmentDAO (ITreatmentDAO tdao) {
@@ -110,10 +110,12 @@ public class Provider implements Serializable {
 	 */
 	
 	public long addTreatment (Patient p, Treatment t) {
-		/*
-		 * TODO complete this operation (see patient entity)
-		 */
-		return 0L;
+		long id = this.treatmentDAO.addTreatment(t);
+		this.getTreatments().add(t);
+		if (t.getProvider() != this) {
+			t.setProvider(p, this);
+		}
+		return id;
 	}
 	
 	public void getTreatmentIds(List<Long> treatmentIds) {
@@ -123,12 +125,13 @@ public class Provider implements Serializable {
 	}
 	
 	public <T> T exportTreatment(long tid, ITreatmentExporter<T> visitor) throws TreatmentExn {
-		/*
-		 * TODO complete this operation (see patient entity)
-		 */
 		// Export a treatment without violating Aggregate pattern
 		// Check that the exported treatment is a treatment for this patient.
-		return null;
+		Treatment t = treatmentDAO.getTreatment(tid);
+		if (t.getProvider() != this) {
+			throw new TreatmentExn("Inappropriate treatment access: patient = " + id + ", treatment = " + tid);
+		}
+		return t.export(visitor);
 	}
 	
 }
