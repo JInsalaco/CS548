@@ -42,8 +42,9 @@
 				<choice>
 					<!-- TODO Use choice element to add treatment-specific information -->
 					<!-- Define complex types for treatment types below. -->
-					<element name="drug-treatment"
-						type="tns:drug-treatment-type" />
+					<element name="drug-treatment" type="tns:drug-treatment-type" />
+					<element name="surgery-treatment" type="tns:surgery-treatment-type" />
+					<element name ="radiology-treatment" type="tns:radiology-treatment-type" />
 				</choice>
 			</sequence>
 		</complexType>
@@ -64,6 +65,16 @@
 		</sequence>
 	</complexType>
 
-	<!-- TODO fill in the other treatment type definitions -->
+	<complexType name="surgery-treatment-type">
+		<sequence>
+			<element name ="treatment-dates" type="date" />
+		</sequence>
+	</complexType>
+	
+	<complexType name="radiology-treatment-type">
+		<sequence>
+			<element name ="treatment-dates" type="date" nillable="true" minOccurs="0" maxOccurs="unbounded" />
+		</sequence>
+	</complexType>
 
 </schema>

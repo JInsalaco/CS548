@@ -22,11 +22,10 @@ public class ClinicDomainProducer {
     }
     
     /**
-     * TODO Use @PersistenceContext to inject a CONTAINER-managed entity manager.
      * 
      * See here for more discussion: https://stackoverflow.com/a/30007786
      */
-
+    @PersistenceContext(unitName="ClinicDomain")
     private EntityManager em;
     
     @Produces @ClinicDomain

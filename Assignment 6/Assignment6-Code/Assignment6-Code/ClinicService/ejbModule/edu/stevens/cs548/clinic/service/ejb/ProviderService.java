@@ -57,8 +57,14 @@ public class ProviderService implements IProviderService {
 		treatmentFactory = new TreatmentFactory();
 	}
 	
-	// TODO use dependency injection and lifecycle methods to initialize DAOs
-
+	//Use dependency injection and lifecycle methods to initialize DAOs
+	@Inject @ClinicDomain
+	private EntityManager em;
+	
+	@PostConstruct
+	private void initialize() {
+		providerDAO = new ProviderDAO(em);
+	}
 
 	/**
 	 * @see IProviderService#addProvider(ProviderDto dto)
@@ -80,8 +86,13 @@ public class ProviderService implements IProviderService {
 	 */
 	@Override
 	public ProviderDto getProvider(long id) throws ProviderServiceExn {
-		// TODO use DAO to get Provider by database key
-		throw new IllegalStateException("Unimplemented: getProvider");
+		//Use DAO to get Provider by database key
+		try{
+			Provider provider = providerDAO.getProvider(id);
+			return providerDtoFactory.createProviderDto(provider);
+		} catch(ProviderExn e){
+			throw new ProviderServiceExn(e.toString());
+		}
 	}
 
 	/**
@@ -89,8 +100,13 @@ public class ProviderService implements IProviderService {
 	 */
 	@Override
 	public ProviderDto getProviderByNPI(long npi) throws ProviderServiceExn {
-		// TODO use DAO to get Provider by NPI
-		throw new IllegalStateException("Unimplemented: getProviderByNPI");
+		//Use DAO to get Provider by NPI
+		try {
+			Provider provider = providerDAO.getProviderByNPI(npi);
+			return providerDtoFactory.createProviderDto(provider);
+		} catch (ProviderExn e) {
+			throw new ProviderServiceExn(e.toString());
+		}
 	}
 		
 	@Override
@@ -102,8 +118,11 @@ public class ProviderService implements IProviderService {
 			if (dto.getDrugTreatment() != null) {
 				treatment = treatmentFactory.createDrugTreatment(dto.getDiagnosis(), dto.getDrugTreatment().getDrug(),
 						dto.getDrugTreatment().getDosage());
+			} else if (dto.getSurgeryTreatment() != null) {
+				treatment = treatmentFactory.createSurgeryTreatment(dto.getDiagnosis(), dto.getSurgeryTreatment().getTreatmentDates());
+			} else if (dto.getRadiologyTreatment() != null) {
+				treatment = treatmentFactory.createRadiologyTreatment(dto.getDiagnosis(), dto.getRadiologyTreatment().getTreatmentDates());
 			} else {
-				// TODO Handle the other cases
 				throw new IllegalArgumentException("No treatment-specific info provided.");
 			}
 			return provider.addTreatment(patient, treatment);

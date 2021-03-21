@@ -6,6 +6,8 @@ import java.util.List;
 import edu.stevens.cs548.clinic.domain.ITreatmentExporter;
 import edu.stevens.cs548.clinic.service.dto.DrugTreatmentType;
 import edu.stevens.cs548.clinic.service.dto.ObjectFactory;
+import edu.stevens.cs548.clinic.service.dto.RadiologyTreatmentType;
+import edu.stevens.cs548.clinic.service.dto.SurgeryTreatmentType;
 import edu.stevens.cs548.clinic.service.dto.TreatmentDto;
 
 public class TreatmentExporter implements ITreatmentExporter<TreatmentDto> {
@@ -26,14 +28,20 @@ public class TreatmentExporter implements ITreatmentExporter<TreatmentDto> {
 
 	@Override
 	public TreatmentDto exportRadiology(long tid, long patientId, long providerId, String diagnosis, List<Date> dates) {
-		// TODO Auto-generated method stub	
-		return null;
+		TreatmentDto dto = factory.createTreatmentDto();
+		dto.setDiagnosis(diagnosis);
+		RadiologyTreatmentType rInfo = factory.createRadiologyTreatmentType();
+		rInfo.getTreatmentDates().addAll(dates);
+		return dto;
 	}
 
 	@Override
 	public TreatmentDto exportSurgery(long tid, long patientId, long providerId, String diagnosis, Date date) {
-		// TODO Auto-generated method stub	
-		return null;
+		TreatmentDto dto = factory.createTreatmentDto();
+		dto.setDiagnosis(diagnosis);
+		SurgeryTreatmentType sInfo = factory.createSurgeryTreatmentType();
+		sInfo.setTreatmentDates(date);
+		return dto;
 	}
 	
 }

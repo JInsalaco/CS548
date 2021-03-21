@@ -8,6 +8,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 
 import edu.stevens.cs548.clinic.domain.IPatientDAO;
 import edu.stevens.cs548.clinic.domain.IPatientDAO.PatientExn;
@@ -24,6 +25,7 @@ import edu.stevens.cs548.clinic.service.dto.util.PatientDtoFactory;
  * Session Bean implementation class PatientService
  */
 @RequestScoped
+@Transactional
 public class PatientService implements IPatientService {
 	
 	@SuppressWarnings("unused")
@@ -44,9 +46,13 @@ public class PatientService implements IPatientService {
 		patientDtoFactory = new PatientDtoFactory();	
 	}
 	
-	// TODO use dependency injection and lifecycle methods to initialize DAOs
+	@Inject @ClinicDomain
+	private EntityManager em;
 	
-
+	@PostConstruct
+	private void initialize() {
+		patientDAO = new PatientDAO(em);
+	}
 
 	/**
 	 * @see IPatientService#addPatient(String, Date, long)
@@ -68,8 +74,13 @@ public class PatientService implements IPatientService {
 	 */
 	@Override
 	public PatientDto getPatient(long id) throws PatientServiceExn {
-		// TODO use DAO to get patient by database key
-		throw new IllegalStateException("Unimplemented: getPatient");
+		//Use DAO to get patient by database key
+		try {
+			Patient patient = patientDAO.getPatient(id);
+			return patientDtoFactory.createPatientDto(patient);
+		} catch (PatientExn e) {
+			throw new PatientServiceExn(e.toString());
+		}
 
 	}
 
@@ -78,8 +89,13 @@ public class PatientService implements IPatientService {
 	 */
 	@Override
 	public PatientDto getPatientByPatId(long pid) throws PatientServiceExn {
-		// TODO use DAO to get patient by patient id
-		throw new IllegalStateException("Unimplemented: getPatientByPatId");
+		//Use DAO to get patient by patient id
+		try {
+			Patient patient = patientDAO.getPatientByPatientId(pid);
+			return patientDtoFactory.createPatientDto(patient);
+		} catch (PatientExn e) {
+			throw new PatientServiceExn(e.toString());
+		}
 	}
 
 	@Override
