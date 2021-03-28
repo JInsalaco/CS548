@@ -8,7 +8,13 @@ import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.inject.Inject;
 
+import edu.stevens.cs548.clinic.domain.DrugTreatment;
+import edu.stevens.cs548.clinic.domain.Provider.ProviderType;
+import edu.stevens.cs548.clinic.service.dto.DrugTreatmentType;
 import edu.stevens.cs548.clinic.service.dto.PatientDto;
+import edu.stevens.cs548.clinic.service.dto.ProviderDto;
+import edu.stevens.cs548.clinic.service.dto.ProviderSpecType;
+import edu.stevens.cs548.clinic.service.dto.TreatmentDto;
 import edu.stevens.cs548.clinic.service.dto.util.PatientDtoFactory;
 import edu.stevens.cs548.clinic.service.dto.util.ProviderDtoFactory;
 import edu.stevens.cs548.clinic.service.dto.util.TreatmentDtoFactory;
@@ -46,7 +52,7 @@ public class InitBean {
 		/*
 		 * Put your testing logic here. Use the logger to display testing output in the server logs.
 		 */
-		logger.info("Your name here: ");
+		logger.info("Joseph Insalaco: ");
 
 		try {
 			
@@ -66,10 +72,24 @@ public class InitBean {
 			john.setName("John Doe");
 			
 			patientService.addPatient(john);
-			
 			logger.info("Added "+john.getName()+" with id "+john.getId());;
 			
-			// TODO add more testing, including treatments and providers
+			ProviderDto a = providerFactory.createProviderDto();
+			a.setNpi(12345L);
+			a.setName("Dr J");
+			a.setProviderSpec(ProviderSpecType.INTERNAL);
+			
+			providerService.addProvider(a);
+			logger.info("Added"+a.getName()+" With NPI: "+a.getNpi());
+			
+
+			DrugTreatment dt = new DrugTreatment();
+			dt.setDrug("Poison");
+			dt.setDosage(1.234f);
+			TreatmentDto b = treatmentFactory.createTreatmentDto(dt);
+			
+			providerService.addTreatment(b);
+			
 			
 		} catch (Exception e) {
 
