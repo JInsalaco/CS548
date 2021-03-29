@@ -14,19 +14,18 @@
 	<modules>
 		<module>../ClinicApp</module>
 		<module>../ClinicDomain</module>
-<!-- 		<module>../ClinicInit0</module> -->
 		<module>../ClinicDTOs</module>
 		<module>../ClinicInit1</module>
 		<module>../ClinicServiceClient</module>
 		<module>../ClinicService</module>
-		<module>../ClinicRepresentations</module>
-		<module>../ClinicRestWebService</module>
-<!-- 		<module>../ClinicBillingServiceClient</module> -->
-<!-- 		<module>../ClinicBillingService</module> -->
-<!-- 		<module>../ClinicBillingWebApp</module> -->
-<!-- 		<module>../ClinicResearchServiceClient</module> -->
-<!-- 		<module>../ClinicResearchService</module> -->
-<!-- 		<module>../ClinicResearchWebApp</module> -->
+		<!-- <module>../ClinicRepresentations</module> -->
+		<!-- <module>../ClinicRestWebService</module> -->
+		<!-- <module>../ClinicBillingServiceClient</module> -->
+		<!-- <module>../ClinicBillingService</module> -->
+		<!-- <module>../ClinicBillingWebApp</module> -->
+		<!-- <module>../ClinicResearchServiceClient</module> -->
+		<!-- <module>../ClinicResearchService</module> -->
+		<!-- <module>../ClinicResearchWebApp</module> -->
 	</modules>
 
 	<properties>
@@ -50,7 +49,7 @@
 				</plugin>
 				<plugin>
 					<artifactId>maven-war-plugin</artifactId>
-					<version>3.3.1</version>
+					<version>3.2.2</version>
 					<configuration>
 						<warSourceDirectory>WebContent</warSourceDirectory>
 						<failOnMissingWebXml>false</failOnMissingWebXml>
